@@ -3,10 +3,15 @@ package utils;
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.NumberToTextConverter;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -14,6 +19,31 @@ import java.util.List;
 
 public class Files {
     private static final String PATH_TO_FILES = "./src/test/resources/files/";
+
+    public static String readTextFromDocFile(String filePath) {
+        File file = getFile(filePath);
+        try (FileInputStream fileInputStream = new FileInputStream(file);
+             HWPFDocument document = new HWPFDocument(fileInputStream)) {
+            return document.getDocumentText();
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("File not found" + file.getPath(), e);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Failed to read file " + file.getPath(), e);
+        }
+    }
+
+    public static String readTextFromDocxFile(String filePath) {
+        File file = getFile(filePath);
+        try (FileInputStream fis = new FileInputStream(file);
+             XWPFDocument document = new XWPFDocument(fis);
+             XWPFWordExtractor extractor = new XWPFWordExtractor(document)) {
+            return extractor.getText();
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("File not found" + file.getPath(), e);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Failed to read file " + file.getPath(), e);
+        }
+    }
 
     public static String readTextFromFile(File file) {
         try {

@@ -16,7 +16,7 @@ public class ZipFileTests {
     void zipWithPasswordTest() {
         String zipFile = "1.zip";
         String zipPassword = "pass123";
-        String unzipDocFilePath = "unzip/1.doc";
+        String unzipDocFilePath = "unzip/1.txt";
 
         unzip(zipFile, UNZIP_FOLDER_PATH, zipPassword);
 
