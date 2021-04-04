@@ -12,7 +12,6 @@ public class DocFileTests {
     @Test
     void checkDocFile() {
         String nameDocFile = "1.doc";
-
         String actualData = readTextFromFile(nameDocFile);
         assertThat(actualData, containsString(expectedData));
     }
@@ -20,7 +19,6 @@ public class DocFileTests {
     @Test
     void checkDocxFile() {
         String nameDocxFile = "1.docx";
-
         String actualData = readTextFromFile(nameDocxFile);
         assertThat(actualData, containsString(expectedData));
     }
